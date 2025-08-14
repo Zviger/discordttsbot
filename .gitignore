@@ -1,0 +1,76 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/bin/
+/dist/
+
+# Go workspace file
+go.work
+
+# Dependency directories
+/vendor/
+/go/pkg/
+
+# Go module files
+go.sum
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Debug files
+debug
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test artifacts
+coverage.txt
+profile.out
+*.cover
+
+# Build output
+/build/
+/artifacts/
+
+# Local development files
+local*
+*.local
+
+# Editor directories and files
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+#VS Code
+.vscode/
+
+# TMP files
+tmp/
+
+# Config File
+config.json
+
+# MacOS cpecific files
+.DS_Store
