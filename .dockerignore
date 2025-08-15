@@ -1,0 +1,82 @@
+# Default .dockerignore file
+
+### Version Control ###
+.git/
+.gitignore
+.gitmodules
+.gitattributes
+.svn/
+.hg/
+.bzr/
+CVS/
+
+### IDE & Editor ###
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-*
+*.code-workspace
+
+### OS-Specific ###
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Dependency Directories ###
+node_modules/
+vendor/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+bin/
+obj/
+
+### Build Artifacts ###
+dist/
+build/
+out/
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.out
+*.test
+*.prof
+
+### Logs & Temp Files ###
+*.log
+*.tmp
+*.swp
+*.swo
+npm-debug.log
+yarn-error.log
+
+### Environment Files ###
+.env
+.env.local
+.env.*.local
+secrets.*
+*.key
+*.cert
+*.pem
+
+### Documentation ###
+docs/_build/
+*.pdf
+*.epub
+*.mo
+*.pot
+
+### CI/CD ###
+.github/
+.gitlab-ci.yml
+.circleci/
+.travis.yml
+
+# tmp dir
+tmp

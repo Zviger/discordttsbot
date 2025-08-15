@@ -21,8 +21,11 @@ import (
 	"gopkg.in/hraban/opus.v2"
 )
 
+var config *Config
+
 func main() {
-	config, err := LoadConfig("config.json")
+	var err error
+	config, err = LoadConfig("config.json")
 	if err != nil {
 		log.Fatal("Failed to load config:", err)
 	}
@@ -165,7 +168,8 @@ func playTTS(s *discordgo.Session, guildID, channelID, text, speakerFilePath, la
 	}
 
 	url := fmt.Sprintf(
-		"http://[::1]:5002/api/tts?text=%s&speaker_wav=%s&language_id=%s",
+		"%s/api/tts?text=%s&speaker_wav=%s&language_id=%s",
+		config.TTS.ApiUrl,
 		text,
 		speakerFilePath,
 		language,

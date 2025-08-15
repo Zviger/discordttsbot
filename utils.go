@@ -14,15 +14,15 @@ func NotInSlice[T comparable](target T, slice []T) bool {
 	return true
 }
 
-func LoadConfig(file string) (Config, error) {
+func LoadConfig(file string) (*Config, error) {
 	var config Config
 	configFile, err := os.Open(file)
 	if err != nil {
-		return config, err
+		return &config, err
 	}
 	defer configFile.Close()
 
 	jsonParser := json.NewDecoder(configFile)
 	err = jsonParser.Decode(&config)
-	return config, err
+	return &config, err
 }
