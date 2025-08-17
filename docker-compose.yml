@@ -2,7 +2,7 @@ services:
   tts:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile.tts.arm
+      dockerfile: dockerfiles/Dockerfile.tts
     image: tts
     container_name: tts-server
     ports:
@@ -10,6 +10,13 @@ services:
     volumes:
       - ./tmp/assets:/root/assets
       - ./tmp/tts_models:/root/.local/share/tts/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all  # Use all available GPUs
+              capabilities: [ gpu ]  # Required for NVIDIA
   
   bot:
     build:
@@ -19,3 +26,4 @@ services:
     container_name: discord-tts-bot
     volumes:
       - ./tmp/assets:/app/tmp/assets
+      - ./config.json:/app/config.json

@@ -15,7 +15,7 @@ RUN go mod download
 COPY . .
 
 RUN CGO_ENABLED=1 GOOS=linux go build \
-    -ldflags="-s -w -extldflags '-static -lopusfile -lopus -logg -lm'" \
+    -ldflags="-extldflags '-static -lopusfile -lopus -logg -lm'" \
     -tags static \
     -o /app/main .
 

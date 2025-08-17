@@ -1,8 +1,12 @@
-FROM ubuntu:24.04
+FROM nvidia/cuda:12.2.2-devel-ubuntu22.04
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y --no-install-recommends curl gcc g++ ca-certificates && \
-rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    gcc \
+    g++ \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:${PATH}"
@@ -10,8 +14,14 @@ ENV PATH="/root/.local/bin:${PATH}"
 RUN uv python install --default 3.12
 RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN uv pip install coqui-tts[server]
+
+RUN uv pip install --no-cache-dir \
+    torch torchaudio --index-url https://download.pytorch.org/whl/cu121
+RUN uv pip install --no-cache-dir coqui-tts[server]
+
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+ENV CUDA_VISIBLE_DEVICES=0
 
 WORKDIR /root
 
-CMD ["tts-server", "--model_name", "tts_models/multilingual/multi-dataset/xtts_v2"]
+CMD ["sh", "-c", "echo 'y' | tts-server --model_name tts_models/multilingual/multi-dataset/xtts_v2 --device cuda --debug"]
