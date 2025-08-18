@@ -112,6 +112,9 @@ func (b *Bot) handleTTSCommand(s *discordgo.Session, m *discordgo.MessageCreate)
 	for _, vs := range g.VoiceStates {
 		if vs.UserID == m.Author.ID {
 
+			b.mutex.Lock()
+			defer b.mutex.Unlock()
+
 			// Join the provided voice channel.
 			vc, err := s.ChannelVoiceJoin(g.ID, vs.ChannelID, false, true)
 			if err != nil {
@@ -138,6 +141,8 @@ func (b *Bot) handleTTSCommand(s *discordgo.Session, m *discordgo.MessageCreate)
 
 			// Disconnect from the provided voice channel.
 			vc.Disconnect()
+
+			return
 		}
 	}
 }

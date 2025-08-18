@@ -48,7 +48,7 @@ func (s *Service) GenerateSpeech(text, voiceFileName, language string, volume fl
 	}
 
 	// Convert WAV to PCM (simplified - you may need proper WAV parsing)
-	// This assumes the WAV is 16-bit 48kHz mono
+	// This assumes the WAV is 16-bit 24kHz mono
 	pcmData := bytes.NewBuffer(wavData[44:]) // Skip WAV header (44 bytes)
 
 	// Create Opus encoder
@@ -57,7 +57,7 @@ func (s *Service) GenerateSpeech(text, voiceFileName, language string, volume fl
 		return nil, err
 	}
 
-	frameSize := 480 // 20ms frame at 48kHz
+	frameSize := 480 // 20ms frame at 24kHz
 	pcm := make([]int16, frameSize)
 	adjustedPcm := make([]int16, frameSize)
 

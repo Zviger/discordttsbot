@@ -3,11 +3,13 @@ package discord
 import (
 	"discordttsbot/config"
 	"discordttsbot/tts"
+	"sync"
 
 	"github.com/bwmarrin/discordgo"
 )
 
 type Bot struct {
+	mutex   sync.Mutex
 	session *discordgo.Session
 	config  *config.Config
 	tts     *tts.Service
