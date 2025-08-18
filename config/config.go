@@ -1,20 +1,20 @@
-package main
+package config
 
 import (
 	"encoding/json"
 	"os"
 )
 
-func NotInSlice[T comparable](target T, slice []T) bool {
-	for _, item := range slice {
-		if item == target {
-			return false
-		}
-	}
-	return true
+type Config struct {
+	Discord struct {
+		Token string `json:"token"`
+	} `json:"discord"`
+	TTS struct {
+		ApiUrl string `json:"apiUrl"`
+	} `json:"tts"`
 }
 
-func LoadConfig(file string) (*Config, error) {
+func Load(file string) (*Config, error) {
 	var config Config
 	configFile, err := os.Open(file)
 	if err != nil {

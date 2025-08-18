@@ -1,0 +1,21 @@
+services:
+  tts:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.tts.cpu
+    image: tts
+    container_name: tts-server
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./tmp/assets:/root/assets
+      - ./tmp/tts_models:/root/.local/share/tts/
+  bot:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.bot
+    image: discordttsbot
+    container_name: discord-tts-bot
+    volumes:
+      - ./tmp/assets:/app/tmp/assets
+      - ./config.json:/app/config.json

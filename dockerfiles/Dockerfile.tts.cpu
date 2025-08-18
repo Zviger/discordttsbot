@@ -14,4 +14,4 @@ RUN uv pip install coqui-tts[server]
 
 WORKDIR /root
 
-CMD ["sh", "-c", "echo 'y' | tts-server --model_name tts_models/multilingual/multi-dataset/xtts_v2--debug"]
+CMD ["sh", "-c", "echo 'y' | tts-server --model_name tts_models/multilingual/multi-dataset/xtts_v2 --debug"]
