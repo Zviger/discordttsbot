@@ -19,13 +19,7 @@ func NewService(cfg *config.Config) *Service {
 	return &Service{cfg}
 }
 
-func (s *Service) GenerateSpeech(text, voiceFileName, language string, volume float64) (*[][]byte, error) {
-	if volume < 0 {
-		volume = 0
-	} else if volume > 2.0 {
-		volume = 2.0
-	}
-
+func (s *Service) GenerateSpeechInWAV(text, voiceFileName, language string) ([]byte, error) {
 	url := fmt.Sprintf(
 		"%s/api/tts?text=%s&speaker_wav=%s&language_id=%s",
 		s.config.TTS.ApiUrl,
@@ -47,6 +41,10 @@ func (s *Service) GenerateSpeech(text, voiceFileName, language string, volume fl
 		return nil, err
 	}
 
+	return wavData, nil
+}
+
+func (s *Service) convertWAVToOpusFrames(wavData []byte, volume float64) ([][]byte, error) {
 	// Convert WAV to PCM (simplified - you may need proper WAV parsing)
 	// This assumes the WAV is 16-bit 24kHz mono
 	pcmData := bytes.NewBuffer(wavData[44:]) // Skip WAV header (44 bytes)
@@ -93,5 +91,25 @@ func (s *Service) GenerateSpeech(text, voiceFileName, language string, volume fl
 		buffer = append(buffer, opusFrame[:n])
 	}
 
-	return &buffer, nil
+	return buffer, nil
+}
+
+func (s *Service) GenerateSpeechInOpusFrames(text, voiceFileName, language string, volume float64) ([][]byte, error) {
+	if volume < 0 {
+		volume = 0
+	} else if volume > 2.0 {
+		volume = 2.0
+	}
+
+	wavData, err := s.GenerateSpeechInWAV(text, voiceFileName, language)
+	if err != nil {
+		return nil, err
+	}
+
+	opusFrames, err := s.convertWAVToOpusFrames(wavData, volume)
+	if err != nil {
+		return nil, err
+	}
+
+	return opusFrames, nil
 }
